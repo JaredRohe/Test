@@ -1,0 +1,19 @@
+FROM debian:jessie
+
+RUN buildDeps=' \
+		ca-certificates \
+		curl \
+		bzip2 \
+		gcc \
+		libpcre++-dev \
+		libssl-dev \
+		make \
+	' \
+  && apt-get install -y --no-install-recommends $buildDeps \
+  && curl -SL "$HTTPD_BZ2_URL" -o httpd.tar.bz2 \
+  && tar -xvf httpd.tar.bz2 -C src/httpd \
+  && make install \
+  COPY httpd-foreground /usr/local/bin/
+
+EXPOSE 80
+CMD ["httpd-foreground"]
