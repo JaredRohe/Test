@@ -1,5 +1,11 @@
 FROM debian:jessie
 
+ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-2.8.23.tar.gz
+
+RUN buildDeps='gcc libc6-dev make' \
+&& curl -sSL "$REDIS_DOWNLOAD_URL" -o redis.tar.gz \
+&& tar -xzf redis.tar.gz -C /usr/src/redis 
+
 EXPOSE 6379
 CMD [ "redis-server" ]
 
